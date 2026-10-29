@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Gaming Emporium Redesign</title>
+<meta name="description" content="Home page redesign mockup for The Gaming Emporium, a hand-curated index of fan decompilations, PC ports, ROM hacks, translations and remakes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: dark;
+  --ground:#0e0e0c;
+  --ground-deep:#090908;
+  --surface:#161613;
+  --surface-2:#1f1e1a;
+  --line:#2a2924;
+  --line-strong:#45433b;
+  --text:#f4f2ea;
+  --text-2:#bdb9ad;
+  --text-3:#8f8b80;
+  --yellow:#ffcc00;
+  --yellow-hi:#ffdb4d;
+  --yellow-ink:#161200;
+  --yellow-ink-2:#4a3d00;
+  --yellow-wash:rgba(255,204,0,.10);
+  --ai-none:#6fd08f;
+  --ai-light:#f0b43c;
+  --ai-heavy:#ff7a6b;
+  --radius:8px;
+  --gutter:clamp(16px,4vw,48px);
+  --max:1320px;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --font:"Archivo",system-ui,sans-serif;
+}
+:root:not([data-theme="light"]){color-scheme:dark}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--ground:#0e0e0c}}
+:root[data-theme="dark"]{--ground:#0e0e0c}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:88px;scrollbar-color:var(--line-strong) var(--ground-deep)}
+body{margin:0;background:var(--ground);color:var(--text);font:400 16px/1.55 var(--font);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+::selection{background:var(--yellow);color:var(--yellow-ink)}
+::-webkit-scrollbar{width:12px;height:12px}
+::-webkit-scrollbar-track{background:var(--ground-deep)}
+::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:8px;border:3px solid var(--ground-deep)}
+img{display:block;max-width:100%}
+a{color:inherit;text-underline-offset:.22em;text-decoration-thickness:1px}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--yellow);outline-offset:3px;border-radius:4px}
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+.icon{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.num{font-variant-numeric:tabular-nums}
+
+.concept{background:var(--ground-deep);color:var(--text-3);font-size:13px;line-height:1.4;text-align:center;padding:7px var(--gutter)}
+.concept a{color:var(--text-2)}
+.concept a:hover{color:var(--yellow)}
+/* ---------- Shell bar ---------- */
+.bar{position:sticky;top:0;z-index:50;background:var(--yellow);color:var(--yellow-ink);box-shadow:0 1px 0 rgba(0,0,0,.25),0 8px 24px -12px rgba(0,0,0,.6)}
+.bar__in{display:flex;align-items:center;gap:28px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:900;font-stretch:125%;font-size:17px;letter-spacing:-.01em;line-height:1;white-space:nowrap}
+.nav{display:flex;flex:none;gap:22px;font-weight:600;font-size:15px}
+.nav a{white-space:nowrap}
+.nav a{text-decoration:none;padding:6px 0;background:linear-gradient(currentColor,currentColor) 0 100%/0 2px no-repeat;transition:background-size .3s var(--ease)}
+.nav a:hover{background-size:100% 2px}
+.bar__tools{flex:1 1 auto;min-width:0;display:flex;align-items:center;justify-content:flex-end;gap:12px}
+.search{position:relative;display:flex;align-items:center;flex:0 1 340px;min-width:200px}
+.search .icon{position:absolute;left:12px;color:#c9c2a2;pointer-events:none}
+.search input{width:100%;height:40px;border:0;border-radius:6px;background:var(--yellow-ink);color:#fff;padding:0 40px 0 40px;font-size:15px}
+.search input::placeholder{color:#b9b293}
+.search input:focus-visible{outline:2px solid var(--yellow-ink);outline-offset:2px}
+.search kbd{position:absolute;right:10px;font:600 12px/1 var(--font);color:#b9b293;border:1px solid #4d4630;border-radius:4px;padding:3px 6px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:6px;font-weight:700;font-size:15px;text-decoration:none;cursor:pointer;border:1.5px solid transparent;white-space:nowrap;transition:background-color .2s,color .2s,border-color .2s,transform .2s var(--ease)}
+.btn:active{transform:translateY(1px)}
+.btn--ink{border-color:var(--yellow-ink);color:var(--yellow-ink);background:transparent}
+.btn--ink:hover{background:var(--yellow-ink);color:var(--yellow)}
+.btn--yellow{background:var(--yellow);color:var(--yellow-ink)}
+.btn--yellow:hover{background:var(--yellow-hi)}
+.btn--ghost{border-color:var(--line-strong);color:var(--text);background:transparent}
+.btn--ghost:hover{border-color:var(--yellow);color:var(--yellow)}
+.btn--lg{height:48px;padding:0 22px;font-size:16px}
+.saved{display:none;align-items:center;gap:6px;font-weight:700;font-size:15px;text-decoration:none;padding:6px 4px}
+.saved.is-on{display:inline-flex;animation:pop .5s var(--ease)}
+.saved .icon{fill:var(--yellow-ink)}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+.menu-btn{display:none;width:40px;height:40px;border:0;border-radius:6px;background:transparent;color:var(--yellow-ink);cursor:pointer;place-items:center}
+.menu-btn:hover{background:rgba(0,0,0,.08)}
+.mobile-nav{display:none}
+
+/* ---------- Route strip (signature) ---------- */
+.route{display:grid;grid-template-columns:auto minmax(22px,1fr) auto;justify-content:start;align-items:center;gap:6px;font-weight:700;font-stretch:72%;font-size:12px;letter-spacing:.07em;text-transform:uppercase;line-height:1}
+.route__from,.route__to{padding:5px 7px 4px;border-radius:3px;white-space:nowrap}
+.route__from{border:1px solid var(--line-strong);color:var(--text-2)}
+.route__to{background:var(--yellow);color:var(--yellow-ink);font-weight:850}
+.route__line{position:relative;height:2px;background:var(--yellow);margin-right:5px}
+.route__line::after{content:"";position:absolute;right:-5px;top:50%;width:7px;height:7px;border-top:2px solid var(--yellow);border-right:2px solid var(--yellow);transform:translateY(-50%) rotate(45deg)}
+.route.route--to{grid-template-columns:34px auto!important;justify-content:start}
+.kind{font-weight:700;font-stretch:72%;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--text-2);border:1px dashed var(--line-strong);border-radius:3px;padding:5px 7px 4px;white-space:nowrap;justify-self:start}
+.route.is-drawing .route__line{animation:draw 1s var(--ease) both;animation-delay:calc(var(--i,0) * 80ms + 250ms)}
+@keyframes draw{from{clip-path:inset(-8px 100% -8px -8px)}to{clip-path:inset(-8px -8px -8px -8px)}}
+
+/* ---------- Hero ---------- */
+.hero{padding:64px 0 88px;border-bottom:1px solid var(--line)}
+.hero__grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,5vw,72px);align-items:start}
+.hero h1{margin:8px 0 24px;font-weight:880;font-stretch:112%;font-size:clamp(2.6rem,5.4vw,5.1rem);line-height:.94;letter-spacing:-.035em;text-wrap:balance}
+.hero h1 em{font-style:normal;color:var(--yellow)}
+.lede{margin:0 0 32px;font-size:clamp(1.05rem,1.3vw,1.2rem);line-height:1.6;color:var(--text-2);max-width:34em}
+.lede strong{color:var(--text);font-weight:700}
+.hero__actions{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:32px}
+.fineprint{display:flex;gap:10px;font-size:14px;line-height:1.5;color:var(--text-3);max-width:34em;padding-top:20px;border-top:1px solid var(--line)}
+.fineprint .icon{color:var(--text-3);margin-top:2px}
+.fineprint a{color:var(--text-2)}
+.fineprint a:hover{color:var(--yellow)}
+
+.board{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.board__head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:18px 22px;border-bottom:1px solid var(--line)}
+.board__head h2{margin:0;font-weight:800;font-stretch:110%;font-size:18px;letter-spacing:-.01em}
+.board__head p{margin:0;font-size:14px;color:var(--text-3)}
+.board__head a{color:var(--text-2);font-weight:600}
+.board__head a:hover{color:var(--yellow)}
+.live{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--yellow);margin-right:8px;vertical-align:2px}
+.board ol{list-style:none;margin:0;padding:0}
+.row{position:relative;display:grid;grid-template-columns:96px minmax(0,1fr) 250px;gap:18px;align-items:center;padding:12px 22px;border-bottom:1px solid var(--line);transition:background-color .2s}
+.row:last-child{border-bottom:0}
+.row:hover{background:var(--surface-2)}
+.row .route{grid-template-columns:96px minmax(22px,1fr) 78px}
+.row .route__from{justify-self:end}
+.row .route__to{justify-self:start}
+.row .kind{grid-column:1/-1}
+.thumb{position:relative;aspect-ratio:4/3;border-radius:5px;overflow:hidden;background:var(--surface-2)}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.row__title{margin:0 0 4px;font-size:16px;font-weight:700;line-height:1.3;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.row__title a{text-decoration:none}
+.row__title a::after{content:"";position:absolute;inset:0}
+.row:hover .row__title a{text-decoration:underline;text-decoration-color:var(--yellow)}
+.meta{margin:0;font-size:13.5px;color:var(--text-3);display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px}
+.ai{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600}
+.ai::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.ai--none{color:var(--ai-none)}.ai--light{color:var(--ai-light)}.ai--heavy{color:var(--ai-heavy)}
+.is-missing{display:grid;place-items:center}
+.is-missing img{display:none}
+.is-missing::after{content:"No image yet";font-size:12px;color:var(--text-3)}
+
+/* ---------- Sections ---------- */
+.section{padding:96px 0;border-bottom:1px solid var(--line)}
+.section__head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:40px;flex-wrap:wrap}
+.section__head h2{margin:0 0 10px;font-weight:850;font-stretch:112%;font-size:clamp(1.75rem,3vw,2.6rem);line-height:1.02;letter-spacing:-.03em;text-wrap:balance}
+.section__head p{margin:0;color:var(--text-2);max-width:40em}
+.more{display:inline-flex;align-items:center;gap:8px;font-weight:700;text-decoration:none;color:var(--text);white-space:nowrap}
+.more .icon{color:var(--yellow);transition:transform .25s var(--ease)}
+.more:hover .icon{transform:translateX(4px)}
+.more:hover{color:var(--yellow)}
+
+/* Index */
+.families{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(24px,3vw,40px)}
+.family h3{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 6px;font-weight:800;font-stretch:108%;font-size:20px;letter-spacing:-.015em}
+.family h3 span{font-size:14px;font-weight:600;font-stretch:100%;color:var(--text-3)}
+.family > p{margin:0 0 16px;font-size:14px;color:var(--text-3);min-height:2.9em}
+.family ul{list-style:none;margin:0;padding:0;border-top:2px solid var(--yellow)}
+.family li a{display:block;padding:14px 0 14px;border-bottom:1px solid var(--line);text-decoration:none;transition:padding .25s var(--ease)}
+.family li a:hover{padding-left:8px}
+.family li a:hover .cat{color:var(--yellow)}
+.cat{display:flex;justify-content:space-between;gap:12px;font-weight:700;font-size:16px;line-height:1.3;transition:color .2s}
+.cat .num{font-weight:600;color:var(--text-2)}
+.def{display:block;margin-top:3px;font-size:14px;line-height:1.45;color:var(--text-3)}
+.index-foot{display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:40px;padding-top:24px;border-top:1px solid var(--line);color:var(--text-2);font-size:15px}
+.index-foot a{font-weight:700;text-decoration:none;color:var(--text)}
+.index-foot a:hover{color:var(--yellow)}
+
+/* Cards */
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:40px 24px}
+.card{position:relative}
+.card__media{position:relative;aspect-ratio:4/3;border-radius:var(--radius);overflow:hidden;background:var(--surface-2);margin-bottom:14px}
+.card__media img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease),filter .4s}
+.card:hover .card__media img{transform:scale(1.04)}
+.card__title{margin:0 0 10px;font-size:17px;font-weight:750;line-height:1.3;letter-spacing:-.005em}
+.card__title a{text-decoration:none}
+.card__title a::after{content:"";position:absolute;inset:0;z-index:1}
+.card:hover .card__title a{text-decoration:underline;text-decoration-color:var(--yellow)}
+.card__title .icon{width:14px;height:14px;display:inline;vertical-align:-1px;margin-left:4px;color:var(--text-3)}
+.card .route{grid-template-columns:auto 34px auto;justify-content:start;margin-bottom:10px}
+.badge{position:absolute;left:10px;bottom:10px;display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:5px;background:rgba(9,9,8,.82);backdrop-filter:blur(6px);font-size:12.5px;font-weight:700;color:var(--text)}
+.badge .icon{width:13px;height:13px;color:var(--yellow);fill:var(--yellow)}
+.fav{position:absolute;z-index:2;top:10px;right:10px;width:38px;height:38px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;background:rgba(9,9,8,.72);backdrop-filter:blur(6px);color:#fff;transition:background-color .2s,transform .3s var(--ease)}
+.fav:hover{background:rgba(9,9,8,.92);transform:scale(1.08)}
+.fav[aria-pressed="true"]{background:var(--yellow);color:var(--yellow-ink)}
+.fav[aria-pressed="true"] .icon{fill:currentColor}
+
+/* Discover */
+.discover{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(32px,4vw,56px);align-items:start}
+.tabs{display:flex;gap:4px;padding:4px;border-radius:8px;background:var(--surface);border:1px solid var(--line);width:max-content;max-width:100%;overflow-x:auto;margin-bottom:8px}
+.tab{height:36px;padding:0 14px;border:0;border-radius:5px;background:transparent;color:var(--text-2);font-weight:650;font-size:14.5px;cursor:pointer;white-space:nowrap}
+.tab:hover{color:var(--text)}
+.tab[aria-selected="true"]{background:var(--yellow);color:var(--yellow-ink)}
+.tab-note{margin:0 0 8px;font-size:14px;color:var(--text-3)}
+.ranks{list-style:none;margin:0;padding:0}
+.rank{position:relative;display:grid;grid-template-columns:36px 72px minmax(0,1fr) auto;gap:16px;align-items:center;padding:12px 8px;border-bottom:1px solid var(--line);transition:background-color .2s}
+.rank:hover{background:var(--surface)}
+.rank__n{font-weight:850;font-stretch:112%;font-size:22px;color:var(--text-3);text-align:right}
+.rank:nth-child(-n+3) .rank__n{color:var(--yellow)}
+.rank .row__title{font-size:16px}
+.rank .route{grid-template-columns:auto 26px auto}
+.ranks.is-in .rank{animation:rise .5s var(--ease) both;animation-delay:calc(var(--i) * 40ms)}
+@keyframes rise{from{opacity:.001;transform:translateY(6px)}}
+
+.lucky{position:sticky;top:96px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px}
+.lucky h3{margin:0 0 6px;font-weight:850;font-stretch:112%;font-size:24px;letter-spacing:-.02em}
+.lucky > p{margin:0 0 18px;color:var(--text-2);font-size:15px}
+.lucky__controls{display:flex;gap:10px;margin-bottom:20px}
+.select{position:relative;flex:1}
+.select select{appearance:none;width:100%;height:44px;border-radius:6px;border:1px solid var(--line-strong);background:var(--ground);padding:0 38px 0 14px;font-size:15px;cursor:pointer}
+.select select:hover{border-color:var(--text-3)}
+.select .icon{position:absolute;right:12px;top:13px;pointer-events:none;color:var(--text-3)}
+.deal{position:relative}
+.deal .card__media{margin-bottom:16px}
+.deal .card__title{font-size:20px}
+.deal.is-dealing{animation:deal .55s var(--ease)}
+@keyframes deal{from{opacity:.001;transform:translateY(10px) rotate(-1.2deg)}}
+.deal__link{position:relative;z-index:2;margin-top:16px}
+
+/* Community */
+.community{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(32px,4vw,56px);align-items:start}
+.thread__bar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.thread__bar strong{font-size:16px}
+.seg{display:flex;gap:2px;padding:3px;border-radius:7px;background:var(--surface);border:1px solid var(--line)}
+.seg button{height:32px;padding:0 12px;border:0;border-radius:5px;background:transparent;color:var(--text-2);font-size:14px;font-weight:650;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface-2);color:var(--text);box-shadow:inset 0 0 0 1px var(--line-strong)}
+.comments{list-style:none;margin:0;padding:0}
+.comment{display:grid;grid-template-columns:40px minmax(0,1fr);gap:14px;padding:22px 0;border-bottom:1px solid var(--line)}
+.avatar{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:15px;color:var(--yellow-ink)}
+.comment__head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin-bottom:6px}
+.comment__head b{font-weight:700}
+.comment__head time{font-size:13.5px;color:var(--text-3)}
+.tag{font-size:12px;font-weight:700;padding:2px 7px;border-radius:4px;background:var(--yellow);color:var(--yellow-ink)}
+.comment p{margin:0 0 10px;color:var(--text-2);max-width:62ch}
+.comment__foot{display:flex;gap:16px;font-size:13.5px;color:var(--text-3)}
+.comment__foot span{display:inline-flex;align-items:center;gap:6px}
+.comment__foot .icon{width:15px;height:15px}
+.reply{margin-top:14px;padding-left:16px;border-left:1px solid var(--line-strong)}
+.compose{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:24px;padding:18px 20px;border-radius:10px;background:var(--surface);border:1px solid var(--line)}
+.compose p{margin:0;color:var(--text-2);font-size:15px}
+.suggest{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px}
+.suggest h3{margin:0 0 6px;font-weight:850;font-stretch:112%;font-size:24px;letter-spacing:-.02em}
+.suggest > p{margin:0 0 20px;color:var(--text-2);font-size:15px}
+.field{display:block;margin-bottom:14px}
+.field span{display:block;font-size:14px;font-weight:650;margin-bottom:6px}
+.field input{width:100%;height:44px;border-radius:6px;border:1px solid var(--line-strong);background:var(--ground);padding:0 14px;font-size:15px}
+.field input::placeholder{color:var(--text-3)}
+.field input:hover,.select select:focus-visible{border-color:var(--text-3)}
+.thanks{display:none;align-items:flex-start;gap:12px;padding:16px;border-radius:8px;background:var(--yellow-wash);border:1px solid rgba(255,204,0,.35);color:var(--text);font-size:15px}
+.thanks .icon{color:var(--yellow);margin-top:2px}
+.suggest.is-sent form{display:none}
+.suggest.is-sent .thanks{display:flex}
+.small{font-size:13.5px;color:var(--text-3);margin:14px 0 0}
+.small a{color:var(--text-2)}
+
+/* Footer */
+.foot{background:var(--ground-deep);padding:72px 0 88px}
+.foot__grid{display:grid;grid-template-columns:minmax(0,5fr) repeat(3,minmax(0,2fr));gap:40px}
+.foot__brand{font-weight:900;font-stretch:125%;font-size:28px;letter-spacing:-.02em;line-height:1;margin:0 0 16px}
+.foot__brand span{color:var(--yellow)}
+.foot p{color:var(--text-2);font-size:15px;margin:0 0 12px;max-width:40em}
+.foot h4{margin:4px 0 14px;font-size:13px;font-weight:700;color:var(--text-3)}
+.foot ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.foot ul a{text-decoration:none;color:var(--text);font-size:15px;display:inline-flex;align-items:center;gap:8px}
+.foot ul a:hover{color:var(--yellow)}
+.foot ul .icon{width:16px;height:16px;color:var(--text-3)}
+.foot__base{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-top:56px;padding-top:24px;border-top:1px solid var(--line);font-size:14px;color:var(--text-3)}
+.foot__base button{background:none;border:0;padding:0;color:var(--text-2);cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.foot__base button:hover{color:var(--yellow)}
+
+/* Presentation layer: redesign notes (not part of the design) */
+.notes-btn{position:fixed;right:16px;bottom:16px;z-index:60;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:20px;border:0;background:#f7f5ef;color:#1a1a17;font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 6px 24px -6px rgba(0,0,0,.6)}
+.notes-btn:hover{background:#fff}
+.notes{position:fixed;inset:0 0 0 auto;z-index:70;width:min(440px,100%);background:#f7f5ef;color:#1d1c19;padding:28px 28px 40px;overflow-y:auto;transform:translateX(102%);transition:transform .5s var(--ease);box-shadow:-20px 0 60px -20px rgba(0,0,0,.7)}
+.notes.is-open{transform:none}
+.notes h2{margin:0 0 6px;font-weight:850;font-stretch:110%;font-size:24px;letter-spacing:-.02em}
+.notes > p{margin:0 0 20px;color:#57554d;font-size:15px}
+.notes ol{margin:0;padding:0 0 0 20px;display:grid;gap:16px}
+.notes li{font-size:15px;line-height:1.5;color:#3c3a34}
+.notes li b{color:#1d1c19}
+.notes h3{margin:28px 0 8px;font-size:15px;font-weight:800}
+.notes ul{margin:0;padding-left:20px;color:#57554d;font-size:14px;display:grid;gap:6px}
+.notes__close{position:absolute;top:16px;right:16px;width:36px;height:36px;border:0;border-radius:50%;background:#e8e5dc;cursor:pointer;display:grid;place-items:center;color:#1d1c19}
+.notes ::selection{background:#1d1c19;color:#f7f5ef}
+.notes :focus-visible{outline-color:#1d1c19}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1340px){
+  .bar__in{gap:20px}
+  .nav{gap:14px}
+}
+@media (max-width:1180px){
+  .nav{gap:16px;font-size:14.5px}
+  .row{grid-template-columns:84px minmax(0,1fr);row-gap:10px}
+  .row .route{grid-column:2;grid-template-columns:auto 40px auto;justify-content:start}
+  .families{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:56px}
+  .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (max-width:1180px){
+  .bar__in{height:auto;flex-wrap:wrap;gap:10px 16px;padding-top:12px;padding-bottom:12px}
+  .nav,.bar .btn--ink{display:none}
+  .menu-btn{display:grid}
+  .bar__tools{display:contents}
+  .saved{margin-left:auto}
+  .saved:not(.is-on) + .menu-btn{margin-left:auto}
+  .search{order:5;flex:1 1 100%}
+  .search input{width:100%}
+  .search kbd{display:none}
+  .mobile-nav{display:none;order:6;flex:1 1 100%;flex-direction:column;padding:4px 0 8px;border-top:1px solid rgba(0,0,0,.15)}
+  .mobile-nav.is-open{display:flex}
+  .mobile-nav a{padding:12px 0;font-weight:700;font-size:16px;text-decoration:none;border-bottom:1px solid rgba(0,0,0,.1)}
+}
+@media (max-width:960px){
+  .hero{padding:40px 0 64px}
+  .hero__grid,.discover,.community{grid-template-columns:minmax(0,1fr)}
+  .lucky{position:static}
+  .section{padding:72px 0}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .foot__grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .foot__about{grid-column:1/-1}
+}
+@media (max-width:600px){
+  .brand{font-size:14px;font-stretch:108%}
+  .saved__label{display:none}
+  .board__head{padding:16px}
+  .board__head p .hide-sm{display:none}
+  .row{padding:12px 16px;grid-template-columns:72px minmax(0,1fr);gap:8px 14px}
+  .row:nth-child(n+5){display:none}
+  .families{grid-template-columns:minmax(0,1fr);row-gap:48px}
+  .family > p{min-height:0}
+  .grid{gap:32px 16px}
+  .card__title{font-size:15.5px}
+  .card .route{grid-template-columns:auto 18px auto;font-size:11px}
+  .rank{grid-template-columns:24px 56px minmax(0,1fr);gap:12px}
+  .rank .route,.rank .kind{grid-column:3}
+  .rank__n{font-size:18px}
+  .foot__grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero__actions .btn{flex:1 1 auto}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7.5"/><path d="m20.5 20.5-4.2-4.2"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+  <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="m18 14 4 4-4 4"/><path d="m18 2 4 4-4 4"/><path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22"/><path d="M2 6h1.4c1.3 0 2.5.6 3.3 1.7l.5.7"/><path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="14" height="13" rx="2"/><path d="m16.5 10.5 5-3v9l-5-3"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M12 16v-4.5"/><path d="M12 8h.01"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="m6 14 6-6 6 6"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="i-notes" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></symbol>
+</svg>
+
+<p class="concept">Unofficial redesign concept, not the live site. The real Gaming Emporium is at <a href="https://thegamingemporium.com/">thegamingemporium.com</a>.</p>
+<header class="bar">
+  <div class="wrap bar__in">
+    <a class="brand" href="https://thegamingemporium.com/" aria-label="The Gaming Emporium, home">
+      The Gaming Emporium
+    </a>
+    <nav class="nav" aria-label="Browse">
+      <a href="https://thegamingemporium.com/recent/">Recent</a>
+      <a href="https://thegamingemporium.com/categories/">Categories</a>
+      <a href="https://thegamingemporium.com/series/">Series</a>
+      <a href="https://thegamingemporium.com/genres/">Genres</a>
+      <a href="https://thegamingemporium.com/all/">All projects</a>
+    </nav>
+    <div class="bar__tools">
+      <form class="search" role="search" action="https://thegamingemporium.com/search/">
+        <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+        <label class="sr" for="q">Search projects</label>
+        <input id="q" name="q" type="search" placeholder="Search projects" autocomplete="off">
+        <kbd aria-hidden="true">/</kbd>
+      </form>
+      <a class="saved" id="saved" href="#" aria-live="polite"><svg class="icon" aria-hidden="true"><use href="#i-heart"/></svg><span class="saved__label">Saved</span> <span class="num" id="saved-n">0</span></a>
+      <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="mobile-nav" aria-label="Menu"><svg class="icon" aria-hidden="true"><use href="#i-menu"/></svg></button>
+      <a class="btn btn--ink" href="#suggest">Suggest a project</a>
+      <nav class="mobile-nav" id="mobile-nav" aria-label="Browse">
+        <a href="https://thegamingemporium.com/recent/">Recent additions</a>
+        <a href="https://thegamingemporium.com/categories/">Categories</a>
+        <a href="https://thegamingemporium.com/series/">Series</a>
+        <a href="https://thegamingemporium.com/genres/">Genres</a>
+        <a href="https://thegamingemporium.com/all/">All projects</a>
+        <a href="#suggest">Suggest a project</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap hero__grid">
+      <div>
+        <h1>Old games, <em>new ways</em> to play.</h1>
+        <p class="lede">The Gaming Emporium is a hand-curated index of <strong class="num">3,785</strong> fan-made decompilations, PC ports, ROM hacks, translations and remakes. Find a game you love, see where it runs now, then follow the link to the project&rsquo;s own page.</p>
+        <div class="hero__actions">
+          <a class="btn btn--yellow btn--lg" href="#index">Browse the index <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          <a class="btn btn--ghost btn--lg" href="#discover" id="hero-surprise"><svg class="icon" aria-hidden="true"><use href="#i-shuffle"/></svg> Surprise me</a>
+        </div>
+        <p class="fineprint"><svg class="icon" aria-hidden="true"><use href="#i-info"/></svg><span>Nothing is hosted here: each entry links to the project on GitHub, itch.io, ModDB and so on. Some projects need game files you own. <a href="https://dumping.guide/start">How to dump your own games</a>.</span></p>
+      </div>
+
+      <div class="board" aria-labelledby="just-added">
+        <div class="board__head">
+          <h2 id="just-added"><span class="live" aria-hidden="true"></span>Just added</h2>
+          <p><span class="num">23</span> today<span class="hide-sm">, <span class="num">548</span> this month</span> &middot; <a href="https://thegamingemporium.com/recent/">See all</a></p>
+        </div>
+        <ol id="just-list"></ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="index" aria-labelledby="index-h">
+    <div class="wrap">
+      <div class="section__head">
+        <div>
+          <h2 id="index-h">What&rsquo;s in the index</h2>
+          <p>Seventeen kinds of project, grouped by what they do for you. Every count is live.</p>
+        </div>
+        <a class="more" href="https://thegamingemporium.com/categories/">All categories <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </div>
+
+      <div class="families">
+        <div class="family">
+          <h3>Play it somewhere new <span class="num">1,437</span></h3>
+          <p>The same game, running on a machine it was never made for.</p>
+          <ul>
+            <li><a href="https://thegamingemporium.com/categories/decompilations-recompilations/"><span class="cat">Decompilations &amp; Recompilations <span class="num">658</span></span><span class="def">Games rebuilt from their original code to run natively on PC</span></a></li>
+            <li><a href="https://thegamingemporium.com/categories/android-ports/"><span class="cat">Android Ports <span class="num">278</span></span><span class="def">For phones, tablets and Android handhelds</span></a></li>
+            <li><a href="https://thegamingemporium.com/categories/browser-based/"><span class="cat">Browser Based <span class="num">229</span></span><span class="def">Open a tab and play, nothing to install</span></a></li>
+            <li><a href="https://thegamingemporium.com/categories/console-ports/"><span class="cat">Console to Console Ports <span class="num">160</span></span><span class="def">Games moved onto other consoles and handhelds</span></a></li>
+            <li><a href="https://thegamingemporium.com/categories/vr-ports/"><span class="cat">VR <span class="num">73</span></span><span class="def">Flat games rebuilt for headsets</span></a></li>
+            <li><a href="https://thegamingemporium.com/categories/console-to-pc-port/"><span class="cat">Console to PC Ports <span class="num">39</span></span><span class="def">Console-only releases brought to PC</span></a></li>
+          </ul>
+        </div>
+        <div class="family">
+          <h3>Play it a new way <span class="num">696</span></h3>
+          <p>New levels, new languages, new looks for games you know.</p>
+          <ul>
+            <li><a href="https://thegamingemporium.com/categories/mods/"><span class="cat">Mods <span class="num">286</span></span><span class="def">Fixes, overhauls and additions</span></a></li>
+            <li><a href="https://thegamingemporium.com/categories/english-translation-patches/"><span class="cat">English Translation Patches <span class="num">178</span></span><span class="def">Japan-only releases made playable in English</span></a></li>
+            <li><a href="https://thegamingemporium.com/categories/rom-hacks/"><span class="cat">ROM Hacks <span class="num">177</span></span><span class="def">Remixed, rebalanced and expanded classics</span></a></li>
+            <li><a href="https://thegamingemporium.com/categories/texture-packs/"><span class="cat">Texture Packs <span class="num">55</span></span><span class="def">HD art for ports and emulators</span></a></li>
+          </ul>
+        </div>
+        <div class="family">
+          <h3>Keep it alive <span class="num">1,260</span></h3>
+          <p>Games that would otherwise be lost, unsold or forgotten.</p>
+          <ul>
+            <li><a href="https://thegamingemporium.com/categories/abandonware/"><span class="cat">Abandonware <span class="num">604</span></span><span class="def">No longer sold, still playable</span></a></li>
+            <li><a href="https://thegamingemporium.com/categories/open-source/"><span class="cat">Open Source <span class="num">314</span></span><span class="def">Open engine remakes and reimplementations</span></a></li>
+            <li><a href="https://thegamingemporium.com/categories/fan-games/"><span class="cat">Fan Games &amp; Homebrew <span class="num">282</span></span><span class="def">New games made by fans, often for old hardware</span></a></li>
+            <li><a href="https://thegamingemporium.com/categories/preserved-games/"><span class="cat">Preserved Games <span class="num">60</span></span><span class="def">Prototypes, cancelled and lost builds</span></a></li>
+          </ul>
+        </div>
+        <div class="family">
+          <h3>Tools &amp; what&rsquo;s next <span class="num">390</span></h3>
+          <p>Help getting set up, and projects still being built.</p>
+          <ul>
+            <li><a href="https://thegamingemporium.com/categories/in-the-works/"><span class="cat">In the Works <span class="num">300</span></span><span class="def">In progress and worth watching</span></a></li>
+            <li><a href="https://thegamingemporium.com/categories/utilities/"><span class="cat">Utilities <span class="num">56</span></span><span class="def">Launchers, patchers and helper tools</span></a></li>
+            <li><a href="https://thegamingemporium.com/categories/guides/"><span class="cat">Guides <span class="num">34</span></span><span class="def">Step-by-step setup help</span></a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="index-foot">
+        <span>Know the game, not the category?</span>
+        <a href="https://thegamingemporium.com/series/">Browse 400+ series</a>
+        <a href="https://thegamingemporium.com/genres/">Browse by genre</a>
+        <a href="https://thegamingemporium.com/all/">See every project</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="week-h">
+    <div class="wrap">
+      <div class="section__head">
+        <div>
+          <h2 id="week-h">New this week</h2>
+          <p>Added by hand, most days. Tap the heart to save a project on this device, no account needed.</p>
+        </div>
+        <a class="more" href="https://thegamingemporium.com/recent/">All recent additions <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </div>
+      <div class="grid" id="week-grid"></div>
+    </div>
+  </section>
+
+  <section class="section" id="discover" aria-labelledby="discover-h">
+    <div class="wrap">
+      <div class="section__head">
+        <div>
+          <h2 id="discover-h">What people are playing</h2>
+          <p>Ranked from visits, ratings and playability reports.</p>
+        </div>
+      </div>
+      <div class="discover">
+        <div>
+          <div class="tabs" role="tablist" aria-label="Rankings">
+            <button class="tab" role="tab" aria-selected="true" aria-controls="ranks" data-list="trending">Trending</button>
+            <button class="tab" role="tab" aria-selected="false" aria-controls="ranks" data-list="rising">Rising</button>
+            <button class="tab" role="tab" aria-selected="false" aria-controls="ranks" data-list="gems">Hidden gems</button>
+            <button class="tab" role="tab" aria-selected="false" aria-controls="ranks" data-list="alltime">All-time</button>
+          </div>
+          <p class="tab-note" id="tab-note"></p>
+          <ol class="ranks" id="ranks" role="tabpanel"></ol>
+          <p style="margin-top:20px"><a class="more" href="https://thegamingemporium.com/" id="top50">See the top 50 <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
+        </div>
+
+        <aside class="lucky" aria-labelledby="lucky-h">
+          <h3 id="lucky-h">Can&rsquo;t decide?</h3>
+          <p>Deal a random project from anywhere in the index, or narrow it to one kind.</p>
+          <div class="lucky__controls">
+            <label class="select"><span class="sr">Kind of project</span>
+              <select id="lucky-cat"></select>
+              <svg class="icon" aria-hidden="true"><use href="#i-chev"/></svg>
+            </label>
+            <button class="btn btn--yellow" style="height:44px" id="lucky-go"><svg class="icon" aria-hidden="true"><use href="#i-shuffle"/></svg>Deal</button>
+          </div>
+          <div class="deal" id="deal" aria-live="polite"></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="community" aria-labelledby="community-h">
+    <div class="wrap">
+      <div class="section__head">
+        <div>
+          <h2 id="community-h">Talk to the curator</h2>
+          <p>Comments here are about the Emporium itself: what you&rsquo;d like to see, what&rsquo;s broken, what you found. For a single project, leave a playability report on its card.</p>
+        </div>
+      </div>
+      <div class="community">
+        <div>
+          <div class="thread__bar">
+            <strong><span class="num">47</span> comments</strong>
+            <div class="seg" role="group" aria-label="Sort comments">
+              <button aria-pressed="true" data-sort="new">Newest</button>
+              <button aria-pressed="false" data-sort="top">Top</button>
+              <button aria-pressed="false" data-sort="old">Oldest</button>
+            </div>
+          </div>
+          <ol class="comments" id="comments"></ol>
+          <div class="compose">
+            <p>Comments use GitHub sign-in through giscus.</p>
+            <a class="btn btn--ghost" href="#">Sign in to comment</a>
+          </div>
+        </div>
+
+        <div class="suggest" id="suggest">
+          <h3>Suggest a project</h3>
+          <p>Found a port, decomp or hack that belongs here? Send it over. Every suggestion is reviewed by hand.</p>
+          <form id="suggest-form">
+            <label class="field"><span>Game or project name</span><input required name="t" placeholder="e.g. Jet Set Radio PC Port"></label>
+            <label class="field"><span>Link to the project</span><input required name="u" type="url" placeholder="https://github.com/&hellip;"></label>
+            <label class="field"><span>Kind of project</span>
+              <span class="select" style="display:block;margin:0"><select name="c" id="suggest-cat" style="font-weight:400"></select><svg class="icon" aria-hidden="true"><use href="#i-chev"/></svg></span>
+            </label>
+            <button class="btn btn--yellow btn--lg" style="width:100%;margin-top:6px" type="submit">Send suggestion</button>
+          </form>
+          <div class="thanks" role="status"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span><b>Thanks, it&rsquo;s in the queue.</b> If it&rsquo;s added, it&rsquo;ll appear under Just added.</span></div>
+          <p class="small">Spotted AI-generated code or art in a listed project? <a href="#">Report AI usage</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__grid">
+      <div class="foot__about">
+        <p class="foot__brand">The Gaming <span>Emporium</span></p>
+        <p>Started as a spreadsheet shared on r/SteamDeck and still curated by hand by OldMcGroin. The Emporium links to projects made by their own communities; it doesn&rsquo;t host games, ROMs or downloads.</p>
+      </div>
+      <div>
+        <h4>Browse</h4>
+        <ul>
+          <li><a href="https://thegamingemporium.com/recent/">Recent additions</a></li>
+          <li><a href="https://thegamingemporium.com/categories/">Categories</a></li>
+          <li><a href="https://thegamingemporium.com/series/">Series</a></li>
+          <li><a href="https://thegamingemporium.com/genres/">Genres</a></li>
+          <li><a href="https://thegamingemporium.com/all/">All projects</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Help out</h4>
+        <ul>
+          <li><a href="#suggest">Suggest a project</a></li>
+          <li><a href="#">Report AI usage</a></li>
+          <li><a href="#community">Comments</a></li>
+          <li><a href="https://dumping.guide/start">Dump your own games</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Follow</h4>
+        <ul>
+          <li><a href="#"><svg class="icon" aria-hidden="true"><use href="#i-rss"/></svg>RSS feed</a></li>
+          <li><a href="https://mastodon.social/@OldMcGroin">Mastodon</a></li>
+          <li><a href="https://x.com/McGroin83">X</a></li>
+          <li><a href="#">Install as an app</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot__base">
+      <span><span class="num">3,785</span> projects &middot; <span class="num">548</span> added in October 2026</span>
+      <button type="button"><svg class="icon" aria-hidden="true"><use href="#i-sun"/></svg>Light theme</button>
+    </div>
+  </div>
+</footer>
+
+<button class="notes-btn" id="notes-btn" aria-expanded="false" aria-controls="notes"><svg class="icon" aria-hidden="true"><use href="#i-notes"/></svg>Redesign notes</button>
+<aside class="notes" id="notes" aria-label="Redesign notes" hidden>
+  <button class="notes__close" id="notes-close" aria-label="Close notes"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></button>
+  <h2>Redesign Notes</h2>
+  <p>Thousands of hand-picked projects, updated almost every day. The site struggles to makeobvious to someone landing here for the first time, what the purpose is.</p>
+  <ol>
+    <li>The page opens with one obvious sentence: a hand-curated index of fan decomps, ports, hacks and remakes, linking to each project&rsquo;s own page. Nobody has to click around to work it out.</li>
+    <li>The floating cluster of pills needed to be replaced. Browsing links, search and a single &ldquo;Suggest a project&rdquo; button sit in one line along the top.</li>
+    <li>Fewer buttons with nothing hidden in pop-ups. Surprise Me, Hidden Gems, Top 50 Rising and Most Popular live together in one section with tabs. Site Stats became numbers shown right on the page. RSS, Follow, Install and the theme switch moved to the footer.</li>
+    <li>Favourites show up when they matter. Heart a project and a &ldquo;Saved&rdquo; link appears in the header. Until then, it stays out of the way.</li>
+    <li>The carousel is replaced by a list of all 17 categories, sorted into four groups, each with a count and a short description of what you&rsquo;ll find.</li>
+    <li>Each project explains itself. A small yellow strip shows where a game started and where it runs now, like N64 &rarr; PC or GameCube &rarr; Android. Titles have an external-link icon, so it&rsquo;s clear the link takes you to the project&rsquo;s own site, whether that&rsquo;s GitHub, itch.io or elsewhere.</li>
+    <li>Comments have a clear purpose. The section says it&rsquo;s for talking about the site itself, and shows the newest comments first so it stays current.</li>
+    <li>Suggesting a project takes one step. The form sits right on the page instead of in a pop-up.</li>
+  </ol>
+  <h3>About the content in this mockup</h3>
+  <ul>
+    <li>The order of the lists under the four tabs is just an example.</li>
+    <li>The October comments are made-up examples; the two older ones are real.</li>
+    <li>The group names and category descriptions are suggestions.</li>
+  </ul>
+</aside>
+
+<script>
+const IMG='https://thegamingemporium.com/Images/Games/';
+const P={
+  hydro:{t:'Hydro Thunder Hurricane Recompilation',from:'Xbox 360',to:'PC',cat:'Decomp & Recomp',g:'Racing',d:'29 Oct',img:'manager-4276-17bacfb41b58b155.webp',u:'https://github.com/visibou/htrecomp'},
+  mp2pc:{t:'Metroid Prime 2: Echoes PC Port',from:'GameCube',to:'PC',cat:'Decomp & Recomp',g:'Metroidvania',d:'29 Oct',ai:'light',img:'manager-4266-206a8af268ddd525.webp',u:'https://github.com/Odrannnn/MetroidPrime2Port'},
+  mp2and:{t:'Metroid Prime 2: Echoes for Android',from:'GameCube',to:'Android',cat:'Android Ports',g:'Metroidvania',d:'29 Oct',img:'manager-4267-938465b20e8f2420.webp',u:'https://github.com/Odrannnn/MetroidPrime2Port'},
+  sor:{t:'Streets of Rage Recompilation',from:'Mega Drive',to:'PC',cat:'Decomp & Recomp',g:'Beat Em Up',d:'29 Oct',img:'manager-4256-d16d81ed365ec9d9.webp',u:'https://github.com/RuiNelson/StreetsOfRageProject'},
+  ds3vr:{t:'Dark Souls 3 VR',from:'PC',to:'VR',cat:'VR',g:'RPG, Action',d:'29 Oct',img:'manager-4272-9acb6b5c3df80445.webp',u:'https://github.com/scubasteve2365/DS3-VR'},
+  moh:{t:'Medal of Honor Recompilation',from:'PlayStation',to:'PC',cat:'Decomp & Recomp',g:'First Person Shooter',d:'29 Oct',img:'manager-4269-1de515b6bbea0095.webp',u:'https://github.com/FractalEngineer/Medal-Of-Honor-PSX-Recomp'},
+  mkds:{t:'Mario Kart DS Recompilation',from:'DS',to:'PC',cat:'Decomp & Recomp',g:'Racing',d:'29 Oct',img:'manager-4274-02bb7bb9ec762e46.webp',u:'https://github.com/AlonsoTlol/DS-Kart-Recompiled'},
+  burn3:{t:'Burnout 3: Takedown Recompilation 3',from:'PS2',to:'PC',cat:'Decomp & Recomp',g:'Racing',d:'29 Oct',img:'manager-4273-f5304f2b56d44e44.webp',u:'https://github.com/UwUCammie/Burn3'},
+  totk:{t:'The Legend of Zelda: Tears of the Kingdom Recompilation 2',from:'Switch',to:'PC',cat:'Decomp & Recomp',g:'RPG, Adventure',d:'29 Oct',img:'manager-4270-bfa99310826d91cb.webp',u:'https://github.com/valentderah/totk-pc-recomp'},
+  mk9:{t:'Mortal Kombat 9 in Browser',to:'Browser',cat:'Browser Based',g:'Fighting',d:'29 Oct',play:1,img:'manager-4264-7153512bbf2f3f77.webp',u:'https://mk9.lauta.site/'},
+  fm4:{t:'Forza Motorsport 4 Recompilation 2',from:'Xbox 360',to:'PC',cat:'Decomp & Recomp',g:'Racing',d:'29 Oct',video:1,img:'manager-4262-30aecdc9658c1f32.webp',u:'https://github.com/i2kiselev/fm4-static-recomp'},
+  acnh:{t:'Animal Crossing: New Horizons for Android',from:'Switch',to:'Android',cat:'Android Ports',g:'Life Simulator',d:'28 Oct',img:'manager-4247-40f8ec4d2ba8b45c.webp',u:'https://github.com/Nycolazs/ACNHRecomp'},
+  wreck:{t:'Wreckfest VR',from:'PC',to:'VR',cat:'VR',g:'Racing',d:'29 Oct',img:'manager-4261-51fa1c299e374ca0.webp',u:'https://github.com/sqofer/WREACKFEST-VR'},
+  dw4:{t:'Dragon Warrior IV Recompilation',from:'NES',to:'PC',cat:'Decomp & Recomp',g:'RPG',d:'29 Oct',img:'manager-4259-06848fa4544da636.webp',u:'https://github.com/arichmondphoto/DragonWarrior4NESRecomp'},
+  kz2:{t:'Killzone 2 PC Port',from:'PS3',to:'PC',cat:'Decomp & Recomp',g:'First Person Shooter',d:'28 Oct',img:'manager-4245-1084b0b8e873bd21.webp',u:'https://undecuple.github.io/project-pyrrhus/site/'},
+  m3:{t:'Mother 3 Recompilation 2',from:'GBA',to:'PC',cat:'Decomp & Recomp',g:'RPG',d:'28 Oct',img:'manager-4243-4553441bff41a172.webp',u:'https://github.com/josiahg2502-glitch/Mother3Recomp'},
+  s2h:{t:'2 Ship 2 Harkinian: Majora’s Mask PC Port',from:'N64',to:'PC',cat:'Decomp & Recomp',g:'RPG, Action',ai:'none',img:'2-ship-2-harkinian-the-legend-of-zelda-majoras-mask-pc-port.webp',u:'https://github.com/HarbourMasters/2ship2harkinian'},
+  soh:{t:'Ship of Harkinian: Ocarina of Time Port',from:'N64',to:'PC',cat:'Decomp & Recomp',g:'RPG, Adventure',ai:'light',img:'ship-of-harkinian-zelda-ocarina-of-time-port.webp',u:'https://github.com/HarbourMasters/Shipwright'},
+  dino:{t:'Dinosaur Planet Recompilation',from:'N64',to:'PC',cat:'Decomp & Recomp',g:'Action, Adventure',img:'dinosaur-planet-recompilation.webp',u:'https://github.com/DinosaurPlanetRecomp/dino-recomp'},
+  pd:{t:'Perfect Dark PC Port',from:'N64',to:'PC',cat:'Decomp & Recomp',g:'First Person Shooter',img:'perfect-dark-pc-port.webp',u:'https://github.com/fgsfdsfgs/perfect_dark'},
+  outrun:{t:'OutRun: Cannonball',from:'Arcade',to:'PC',cat:'Decomp & Recomp',g:'Racing',img:'outrun-cannonball.webp',u:'https://github.com/djyt/cannonball/wiki/Cannonball-Manual#getting-started'},
+  awr:{t:'Advance Wars Returns',cat:'ROM Hacks',g:'Strategy',img:'advance-wars-returns.webp',u:'https://www.romhacking.net/hacks/6012/'},
+  st:{t:'Starship Troopers (2005)',cat:'Abandonware',g:'First Person Shooter',img:'starship-troopers-2005.webp',u:'https://www.reddit.com/r/SteamDeck/comments/13t36hr/'},
+  diablo:{t:'Diablo in Browser',from:'PC',to:'Browser',cat:'Browser Based',g:'RPG, Action',play:1,img:'diablo-in-browser.webp',u:'https://d07riv.github.io/diabloweb/'},
+  am2r:{t:'AM2R',cat:'Fan Games & Homebrew',g:'Metroidvania',img:'am2r.webp',u:'https://archive.org/details/am-2-r'},
+  openmw:{t:'OpenMW: Morrowind Port',cat:'Open Source',g:'RPG, Adventure',img:'openmw-morrowind-port.webp',u:'https://openmw.org/'},
+  relive:{t:'R.E.L.I.V.E.: Abe’s Odyssey & Exodus',cat:'Decomp & Recomp',g:'Platformer',img:'r.e.l.i.v.e.-abes-odyssey-exodus-pc-port.webp',u:'https://aliveteam.github.io/'},
+  k1080:{t:'1080 Snowboarding Decompilation',cat:'In the Works',g:'Sports',img:'1080-snowboarding-decompilation.webp',u:'https://github.com/bigyoshi51/1080-decomp'}
+};
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const svg=id=>`<svg class="icon" aria-hidden="true"><use href="#i-${id}"/></svg>`;
+function route(p,i=0){
+  if(!p.to) return `<span class="kind">${esc(p.cat)}</span>`;
+  const sr=p.from?`From ${p.from} to ${p.to}`:`Plays in ${p.to}`;
+  return `<span class="route is-drawing${p.from?'':' route--to'}" style="--i:${i}"><span class="sr">${esc(sr)}</span>${p.from?`<span class="route__from" aria-hidden="true">${esc(p.from)}</span>`:''}<span class="route__line" aria-hidden="true"></span><span class="route__to" aria-hidden="true">${esc(p.to)}</span></span>`;
+}
+function ai(p){return p.ai?`<span class="ai ai--${p.ai}">${{none:'No AI',light:'Light AI use',heavy:'Heavy AI use'}[p.ai]}</span>`:''}
+function thumb(p,cls='thumb'){return `<div class="${cls}"><img src="${IMG+p.img}" alt="" loading="lazy" onerror="this.parentElement.classList.add('is-missing')"></div>`}
+function titleLink(p){return `<a href="${p.u}" target="_blank" rel="noopener">${esc(p.t)}<span class="sr"> (opens project page)</span></a>`}
+const saved=new Set();
+function fav(id,p){return `<button class="fav" type="button" aria-pressed="${saved.has(id)}" data-fav="${id}" aria-label="Save ${esc(p.t)}">${svg('heart')}</button>`}
+
+/* Just added */
+document.getElementById('just-list').innerHTML=['hydro','mp2pc','mp2and','sor','ds3vr','moh'].map((k,i)=>{const p=P[k];return `<li class="row">${thumb(p)}<div><h3 class="row__title">${titleLink(p)}</h3><p class="meta"><span>${esc(p.cat)}</span><span>${esc(p.g)}</span>${ai(p)}</p></div>${route(p,i)}</li>`}).join('');
+
+/* New this week */
+function card(k,i){const p=P[k];const badge=p.play?`<span class="badge">${svg('play')}Play in browser</span>`:p.video?`<span class="badge">${svg('video')}Video</span>`:'';
+  return `<article class="card"><div class="card__media"><img src="${IMG+p.img}" alt="" loading="lazy" onerror="this.parentElement.classList.add('is-missing')">${badge}${fav(k,p)}</div><h3 class="card__title">${titleLink(p)}${svg('ext')}</h3>${route(p,i)}<p class="meta"><span>${esc(p.cat)}</span><span>${esc(p.g)}</span>${ai(p)}</p><p class="meta" style="margin-top:4px">Added ${p.d}</p></article>`}
+document.getElementById('week-grid').innerHTML=['mkds','burn3','totk','mk9','fm4','acnh','wreck','dw4'].map(card).join('');
+
+/* Rankings */
+const LISTS={
+  trending:{note:'Most visited and rated in the last 7 days.',ids:['s2h','dino','soh','totk','pd','outrun','hydro']},
+  rising:{note:'Climbing fastest compared with last week.',ids:['hydro','mkds','kz2','burn3','m3','fm4','mp2pc']},
+  gems:{note:'Highly rated, rarely visited. Worth a look.',ids:['awr','relive','st','k1080','diablo','am2r','openmw']},
+  alltime:{note:'The most visited projects since the Emporium began.',ids:['soh','s2h','outrun','pd','openmw','am2r','dino']}
+};
+const ranks=document.getElementById('ranks');
+function showList(key){
+  const L=LISTS[key];document.getElementById('tab-note').textContent=L.note;
+  ranks.classList.remove('is-in');void ranks.offsetWidth;
+  ranks.innerHTML=L.ids.map((k,i)=>{const p=P[k];return `<li class="rank" style="--i:${i}"><span class="rank__n num">${i+1}</span>${thumb(p)}<div><h3 class="row__title">${titleLink(p)}</h3><p class="meta"><span>${esc(p.cat)}</span>${ai(p)}</p></div>${route(p,i)}</li>`}).join('');
+  ranks.classList.add('is-in');
+}
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected',x===t));showList(t.dataset.list)}));
+showList('trending');
+
+/* Surprise me */
+const CATS=['Decomp & Recomp','Android Ports','Browser Based','VR','ROM Hacks','Abandonware','Fan Games & Homebrew','Open Source','In the Works'];
+document.getElementById('lucky-cat').innerHTML='<option value="">Any kind of project</option>'+CATS.map(c=>`<option>${c}</option>`).join('');
+const ALLCATS=['Abandonware','Android Ports','Browser Based','Console to Console Ports','Console to PC Ports','Decompilations & Recompilations','English Translation Patches','Fan Games & Homebrew','Guides','In the Works','Mods','Open Source','Preserved Games','ROM Hacks','Texture Packs','Utilities','VR','Not sure'];
+document.getElementById('suggest-cat').innerHTML=ALLCATS.map(c=>`<option>${c}</option>`).join('');
+let last=null;const dealEl=document.getElementById('deal');
+function deal(){
+  const c=document.getElementById('lucky-cat').value;
+  const pool=Object.keys(P).filter(k=>!c||P[k].cat===c);
+  let k=pool[Math.floor(Math.random()*pool.length)];
+  if(pool.length>1)while(k===last)k=pool[Math.floor(Math.random()*pool.length)];
+  last=k;const p=P[k];
+  dealEl.classList.remove('is-dealing');void dealEl.offsetWidth;
+  dealEl.innerHTML=`<div class="card"><div class="card__media"><img src="${IMG+p.img}" alt="" onerror="this.parentElement.classList.add('is-missing')">${fav(k,p)}</div><h3 class="card__title">${esc(p.t)}</h3>${route(p)}<p class="meta"><span>${esc(p.cat)}</span><span>${esc(p.g)}</span>${ai(p)}</p></div><a class="btn btn--ghost deal__link" href="${p.u}" target="_blank" rel="noopener">Open project page ${svg('ext')}</a>`;
+  dealEl.classList.add('is-dealing');
+}
+document.getElementById('lucky-go').addEventListener('click',deal);
+document.getElementById('lucky-cat').addEventListener('change',deal);
+document.getElementById('hero-surprise').addEventListener('click',()=>setTimeout(deal,350));
+deal();
+
+/* Favourites: the Saved link only exists once something is saved */
+document.addEventListener('click',e=>{const b=e.target.closest('[data-fav]');if(!b)return;e.preventDefault();
+  const id=b.dataset.fav;saved.has(id)?saved.delete(id):saved.add(id);
+  document.querySelectorAll(`[data-fav="${id}"]`).forEach(x=>x.setAttribute('aria-pressed',saved.has(id)));
+  const s=document.getElementById('saved');document.getElementById('saved-n').textContent=saved.size;s.classList.toggle('is-on',saved.size>0);
+});
+
+/* Comments */
+const COMMENTS=[
+  {n:'pixelpostie',d:'2026-10-29',up:6,c:'#8fd3ff',t:'This month has been wild for recomps. Any chance of a filter for things that run on the Steam Deck without extra setup?'},
+  {n:'retro_rhi',d:'2026-10-27',up:11,c:'#ffb38a',t:'Found the Dinosaur Planet recomp through here and played it start to finish over the weekend. Thanks for keeping this going.',r:{n:'OldMcGroin',d:'2026-10-27',t:'Love hearing that. Thanks for stopping by!'}},
+  {n:'kestrel_mods',d:'2026-10-22',up:3,c:'#b7e07a',t:'The Medal of Honor recomp link points at an older fork. The newer repo has the widescreen fix.'},
+  {n:'aff1337',d:'2026-02-02',up:2,c:'#e0a6ff',t:'I was going to learn web design just to make a central hub for all the ongoing decomps and recomps, but it looks like you beat me to it. Really good upgrade so far.'},
+  {n:'Sneakymemer',d:'2026-01-30',up:1,c:'#7ee0c3',t:'Can’t even begin to tell you how much I love this website, mate. Thanks again for the incredible work.'}
+];
+const fmt=d=>new Date(d+'T12:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short',year:d.startsWith('2026-10')?undefined:'numeric'});
+function renderComments(sort){
+  const list=[...COMMENTS].sort((a,b)=>sort==='top'?b.up-a.up:sort==='old'?a.d.localeCompare(b.d):b.d.localeCompare(a.d)).slice(0,4);
+  document.getElementById('comments').innerHTML=list.map(m=>`<li class="comment"><span class="avatar" style="background:${m.c}" aria-hidden="true">${m.n[0].toUpperCase()}</span><div><div class="comment__head"><b>${esc(m.n)}</b><time datetime="${m.d}">${fmt(m.d)}</time></div><p>${esc(m.t)}</p><div class="comment__foot"><span>${svg('up')}<span class="num">${m.up}</span></span><span>${svg('chat')}Reply</span></div>${m.r?`<div class="reply"><div class="comment__head"><b>${m.r.n}</b><span class="tag">Curator</span><time datetime="${m.r.d}">${fmt(m.r.d)}</time></div><p>${esc(m.r.t)}</p></div>`:''}</div></li>`).join('');
+}
+document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderComments(b.dataset.sort)}));
+renderComments('new');
+
+/* Suggest form (inline, no modal) */
+document.getElementById('suggest-form').addEventListener('submit',e=>{e.preventDefault();document.getElementById('suggest').classList.add('is-sent')});
+
+/* Search shortcut */
+document.addEventListener('keydown',e=>{if(e.key==='/'&&!/input|select|textarea/i.test(document.activeElement.tagName)){e.preventDefault();document.getElementById('q').focus()}
+  if(e.key==='Escape')closeNotes();});
+
+/* Mobile menu */
+const mb=document.getElementById('menu-btn'),mn=document.getElementById('mobile-nav');
+mb.addEventListener('click',()=>{const o=mn.classList.toggle('is-open');mb.setAttribute('aria-expanded',o)});
+
+/* Notes panel */
+const nb=document.getElementById('notes-btn'),notes=document.getElementById('notes');
+function openNotes(){notes.hidden=false;requestAnimationFrame(()=>notes.classList.add('is-open'));nb.setAttribute('aria-expanded','true');document.getElementById('notes-close').focus()}
+function closeNotes(){if(notes.hidden)return;notes.classList.remove('is-open');nb.setAttribute('aria-expanded','false');setTimeout(()=>notes.hidden=true,450)}
+nb.addEventListener('click',()=>notes.hidden?openNotes():closeNotes());
+document.getElementById('notes-close').addEventListener('click',()=>{closeNotes();nb.focus()});
+</script>
+</body>
+</html>
